@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: haul-manager-mongo
+    restart: unless-stopped
+    ports:
+      - '${DB_PORT}:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: '${DB_USER_ROOT}'
+      MONGO_INITDB_ROOT_PASSWORD: '${DB_PASS_ROOT}'
+      MONGO_INITDB_DATABASE: '${DB_NAME}'
+    volumes:
+      - mongo-data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+volumes:
+  mongo-data:
